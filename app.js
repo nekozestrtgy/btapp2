@@ -35,7 +35,7 @@ app.use(session({
 
 // セッションチェックのmiddleware定義
 var sessionCheck = function(req, res, next) {
-  if (req.session.user) {
+  if (req.session.id) {
     next();
   } else {
     res.redirect('/login');

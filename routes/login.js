@@ -1,18 +1,39 @@
 var express = require('express');
 var router = express.Router();
+var models = require('../models');
 
 router.get('/', function(req, res, next) {
   res.render('login');
-}); // /loginをgetした時に、login.pugをrenderする(このファイルでは、/ = /login）。
+}); //このファイルでは、'/' = '/login'
 
 router.post('/', function(req, res, next) {
-  if (req.body.user_name) { //req.body.user_nameの有無で条件分岐
-    req.session.user = {name: req.body.user_name}; //req.body.user_nameをキーnameでreq.session.userに保存
-    res.redirect('../');
-  } else {
-    var err = '入力内容が正しくありません。確認して再入力してください。';
+  var input_user_name = req.body.user_name || null;
+  var input_password = req.body.password || null;
+
+  if (!input_user_name || !input_password) {
+    var err = 'ログインには全記入欄への入力が必要です。再入力してください。';
     res.render('login', {error: err});
+    return;
   }
+
+  models.user.findOne({
+    where: {
+      user_name: input_user_name,
+      password: input_password
+    }
+  })
+  .then((user) => {
+    if(user) {
+      req.session.id = user.id;
+      console.log(req.session.id);
+      console.log(user.id);
+      res.render('index', {user_name: user.user_name});
+    }
+    else {
+      var err = '登録情報が見つからずログインできませんでした。確認の上、再入力してください。';
+      res.render('login', {error: err});
+    }
+  })
 });
 
 module.exports = router;

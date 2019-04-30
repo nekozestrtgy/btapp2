@@ -4,7 +4,7 @@ var models = require('../models');
 
 router.get('/', function(req, res, next) {
   res.render('signup');
-});
+}); //このファイルでは、'/' = '/signup'
 
 router.post('/', function(req, res, next) {
   models.user.create({
