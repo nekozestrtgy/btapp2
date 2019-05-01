@@ -2,17 +2,17 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('login');
-}); //このファイルでは、'/' = '/login'
+});
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
   var input_user_name = req.body.user_name || null;
   var input_password = req.body.password || null;
 
   if (!input_user_name || !input_password) {
     var err = 'ログインには全記入欄への入力が必要です。再入力してください。';
-    res.render('login', {error: err});
+    res.render('login', { error: err });
     return;
   }
 
@@ -22,18 +22,16 @@ router.post('/', function(req, res, next) {
       password: input_password
     }
   })
-  .then((user) => {
-    if(user) {
-      req.session.id = user.id;
-      console.log(req.session.id);
-      console.log(user.id);
-      res.render('index', {user_name: user.user_name});
-    }
-    else {
-      var err = '登録情報が見つからずログインできませんでした。確認の上、再入力してください。';
-      res.render('login', {error: err});
-    }
-  })
+    .then((user) => {
+      if (user) {
+        req.session.id = user.id;
+        res.render('login_success', { user_name: user.user_name });
+      }
+      else {
+        var err = '登録情報が見つからずログインできませんでした。確認の上、再入力してください。';
+        res.render('login', { error: err });
+      }
+    })
 });
 
 module.exports = router;
