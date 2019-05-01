@@ -25,7 +25,7 @@ router.post('/', function (req, res, next) {
     .then((user) => {
       if (user) {
         req.session.user_id = user.id;
-        res.render('login_success', { user_name: user.user_name });
+        res.redirect('/users');
       }
       else {
         var err = '登録情報が見つからずログインできませんでした。確認の上、再入力してください。';

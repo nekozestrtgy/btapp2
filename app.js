@@ -6,6 +6,7 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
+var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/users', usersRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
