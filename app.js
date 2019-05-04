@@ -23,6 +23,13 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+//get時に画面のURLをセッションへ保存するmiddleware
+app.get('/*', function (req, res, next) {
+  req.session.url = req.url
+  console.log(req.session.url)
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
