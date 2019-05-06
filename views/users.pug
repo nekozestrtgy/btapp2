@@ -5,15 +5,16 @@ html
     script(src='/socket.io/socket.io.js')
     script(src='https://code.jquery.com/jquery-1.11.1.js')
   body
-    h1 Mypage
+    h1=room + '-chatroom'
     p Wellcome !!!
     ul#messages
     form.m(action='')
       input#m(autocomplete='off')
       button Send
-    script.
+    script(id='chat', data-room = room).
       $(function () {
-        var socket = io();
+        var room = '/' + $('#chat').data('room') + '-room'
+        var socket = io(room);
         $('form').submit(function(e){
           e.preventDefault(); // prevents page reloading
           socket.emit('chat message', $('#m').val());

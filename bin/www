@@ -25,6 +25,8 @@ var server = http.createServer(app);
  * Require Socket.IO
  */
 var io = require('socket.io')(server);
+var first_room = io.of('/first-room');
+var second_room = io.of('/second-room');
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -37,14 +39,19 @@ server.on('listening', onListening);
 /**
  * Socket.IO Connection.
  */
-io.on('connection', function (socket) {
-  console.log('an user connected');
-  socket.on('disconnect', function () {
-    console.log('user disconnected');
-  });
+first_room.on('connection', function (socket) {
+  console.log('first_room connected');
   socket.on('chat message', function (msg) {
     console.log('message: ' + msg);
-    io.emit('chat message', msg);
+    first_room.emit('chat message', msg);
+  });
+});
+
+second_room.on('connection', function (socket) {
+  console.log('second_room connected');
+  socket.on('chat message', function (msg) {
+    console.log('message: ' + msg);
+    second_room.emit('chat message', msg);
   });
 });
 
