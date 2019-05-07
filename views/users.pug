@@ -6,6 +6,7 @@ html
     script(src='https://code.jquery.com/jquery-1.11.1.js')
   body
     h1 Mypage
+    h2
     p Wellcome !!!
     ul#messages
     form.m(action='')
@@ -23,4 +24,10 @@ html
         socket.on('chat message', function(msg){
           $('#messages').append($('<li>').text(msg));
         });
+        socket.on('connect_error', function (err) {
+          $('h2').text('サーバーに接続できません。接続状態を確認してください。');
+        })
+        socket.on('reconnect', function () {
+          $('h2').text('');
+        })
       });
