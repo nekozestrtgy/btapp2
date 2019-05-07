@@ -23,9 +23,17 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+var sessionCheck = function (req, res, next) {
+  if (req.session.user_id) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
-app.use('/users', usersRouter);
+app.use('/users', sessionCheck, usersRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
