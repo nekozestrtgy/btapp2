@@ -15,4 +15,4 @@ $(function () {
   socket.on('reconnect', function () {
     $('h2').text('');
   })
-}); z
+});
