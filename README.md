@@ -8,6 +8,7 @@
   - `package.json` の使い方
 - ## cookie-session
   - 応用課題1_追加機能1-3のセキュリティ対策
+  - cookieとsessionの仕組み
 - ## socket.io
   - 応用課題2_追加機能2-1
     - グループ作成機能
